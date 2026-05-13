@@ -36,4 +36,14 @@ body {
   margin: 0;
   height: 100%;
 }
-/* You can add global styles to this file, and also import other style files */
+
+.container {
+  max-width: 1200px; 
+  margin: 0 auto;    
+  padding: 0 20px;   
+}
+
+nav {
+  background-color: #333; 
+  width: 100%;
+}

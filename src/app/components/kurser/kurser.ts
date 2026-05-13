@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { CourseService } from '../../services/course';
 import { Course } from '../../models/course';
@@ -10,24 +10,63 @@ import { Course } from '../../models/course';
   templateUrl: './kurser.html',
   styleUrl: './kurser.scss',
 })
-export class Kurser {
-  // Variabel för datan
-  courseList: Course[] = [];
+export class Kurser implements OnInit {
+  // Signaler för data och tillstånd
+  courselist = signal<Course[]>([]);
+  error = signal<string | null>(null);
+  filterText = signal('');
+  sortKey = signal<keyof Course>('courseCode');
+  sortOrder = signal<'asc' | 'desc'>('asc');
 
-  // injicera service
-  private courseService = inject(CourseService);
-
-  ngOnInit(): void {
-    this.getCourseData();
+  // Sortering vid rubrikklick
+  setSort(key: keyof Course) {
+    if (this.sortKey() === key) {
+      this.sortOrder.set(this.sortOrder() === 'asc' ? 'desc' : 'asc');
+    } else {
+      // vid klick på ny kolumn, byt nyckel och nollställ stigande igen
+      this.sortKey.set(key);
+      this.sortOrder.set('asc');
+    }
   }
 
-  getCourseData(): void {
-    this.courseService.getCourses().subscribe({
-      next: (data) => {
-        this.courseList = data; // länka api-data till variabel
+  // computed signal som reagerar på filterText, sortKey och sortOrder
+  filteredCourses = computed(() => {
+    const filter = this.filterText().trim().toLocaleLowerCase();
+    const key = this.sortKey();
+    const order = this.sortOrder();
+
+    let list = this.courselist().filter(
+      (c) =>
+        c.courseCode.toLocaleLowerCase().includes(filter) ||
+        c.courseName.toLocaleLowerCase().includes(filter) ||
+        c.subject.toLocaleLowerCase().includes(filter) ||
+        c.progression.toLocaleLowerCase().includes(filter)
+    );
+
+    // sortera listan
+    return list.sort((a, b) => {
+      const valA = a[key].toString();
+      const valB = b[key].toString();
+
+      const comparison = valA.localeCompare(valB, 'sv', { numeric: true });
+
+      return order === 'asc' ? comparison : comparison * -1; // Om order asc returnera annars gångra med -1 för att vända
+    });
+  });
+
+  private courseservice = inject(CourseService);
+
+  ngOnInit() {
+    this.loadCourses();
+  }
+
+  loadCourses() {
+    this.courseservice.getCourses().subscribe({
+      next: (response) => {
+        this.courselist.set(response);
       },
       error: (err) => {
-        console.error('Något gick fel:', err);
+        this.error.set('Något gick fel vid inläsning av kurser. Prova senare.');
       },
     });
   }

@@ -1,25 +1,54 @@
+<section class="filter">
+    <h2>Tillgängliga kurser</h2>
+    <label for="filter">Filtrera ut kurser:</label>
+    <input type="text" id="filter" placeholder="Sökfras ..." [value]="filterText()"
+        (input)="filterText.set($any($event.target).value)">
+
+</section>
+
 <div class="courses-container">
-  <h2>Tillgängliga kurser</h2>
 
-  <div class="courses-grid">
-    @for (course of courseList; track course.courseCode) {
-      <div class="course-card">
-        <div class="card-header">
-          <span class="course-code">{{ course.courseCode }}</span>
-          <h3>{{ course.courseName }}</h3>
-        </div>
+    <div class="sort-controls">
+        <button mat-button (click)="setSort('courseName')">Sortera på namn</button>
+        <button mat-button (click)="setSort('courseCode')">Sortera på kurskod</button>
+        <button mat-button (click)="setSort('subject')">Sortera på ämne</button>
+        <button mat-button (click)="setSort('points')">Sortera på poäng</button>
+    </div>
+
+    <hr>
+
+    <p class="course-count">
+        Visar <strong>{{ filteredCourses().length }}</strong>
+        {{ filteredCourses().length === 1 ? 'kurs' : 'kurser' }}
         
-        <div class="card-content">
-          <p><strong>Poäng:</strong> {{ course.points }} hp</p>
-          <p><strong>Ämne:</strong> {{ course.subject }}</p>
-        </div>
+        av totalt {{ courselist().length }}
+    </p>
 
-        <div class="card-actions">
-          <button mat-raised-button class="add-btn">Lägg till i schema</button>
+    <!-- loopa över filteredCourses() -->
+    <div class="courses-grid">
+        @for (course of filteredCourses(); track course.courseCode) {
+        <div class="course-card">
+            <div class="card-header">
+                <span class="course-code">{{ course.courseCode }}</span>
+                <h3>{{ course.courseName }}</h3>
+            </div>
+
+            <div class="card-content">
+                <p><strong>Poäng:</strong> {{ course.points }} hp</p>
+                <p><strong>Ämne:</strong> {{ course.subject }}</p>
+                <p><strong>Progression:</strong> {{ course.progression }}</p>
+            </div>
+
+            <div class="card-actions">
+                <button mat-raised-button class="add-btn">Lägg till i schema</button>
+            </div>
         </div>
-      </div>
-    } @empty {
-      <p class="loading">Hämtar kurser från API:et...</p>
-    }
-  </div>
+        } @empty {
+        @if (error()) {
+        <p class="error">{{ error() }}</p>
+        } @else {
+        <p class="loading">Hämtar kurser från API:et...</p>
+        }
+        }
+    </div>
 </div>

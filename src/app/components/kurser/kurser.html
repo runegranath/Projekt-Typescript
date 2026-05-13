@@ -1,1 +1,25 @@
-<p>kurser works!</p>
+<div class="courses-container">
+  <h2>Tillgängliga kurser</h2>
+
+  <div class="courses-grid">
+    @for (course of courseList; track course.courseCode) {
+      <div class="course-card">
+        <div class="card-header">
+          <span class="course-code">{{ course.courseCode }}</span>
+          <h3>{{ course.courseName }}</h3>
+        </div>
+        
+        <div class="card-content">
+          <p><strong>Poäng:</strong> {{ course.points }} hp</p>
+          <p><strong>Ämne:</strong> {{ course.subject }}</p>
+        </div>
+
+        <div class="card-actions">
+          <button mat-raised-button class="add-btn">Lägg till i schema</button>
+        </div>
+      </div>
+    } @empty {
+      <p class="loading">Hämtar kurser från API:et...</p>
+    }
+  </div>
+</div>

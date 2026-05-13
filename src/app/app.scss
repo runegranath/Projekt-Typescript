@@ -1,0 +1,36 @@
+nav ul {
+    display: flex;         
+    flex-direction: row;  
+    list-style: none;     
+    padding: 0;
+    margin: 0;
+    gap: 20px;             
+    background-color: #333; 
+    padding: 1rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #ffd700; 
+}
+
+.active-link {
+  border-bottom: 2px solid white;
+  padding-bottom: 5px;
+}
+
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column; 
+        align-items: center;
+    }
+}
+
+h1 {
+    margin-left: 10px;
+}

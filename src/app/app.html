@@ -1,2 +1,14 @@
 <h1>Projekt-universitetet</h1>
-<router-outlet />
+<header>
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a routerLink="/kurser" routerLinkActive="active-link">Kurser</a></li>
+                <li><a routerLink="/ramschema" routerLinkActive="active-link">Ramschema</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    <router-outlet />
+</main>

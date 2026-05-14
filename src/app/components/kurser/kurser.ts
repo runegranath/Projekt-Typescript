@@ -19,6 +19,12 @@ export class Kurser implements OnInit {
   filterText = signal('');
   sortKey = signal<keyof Course>('courseCode');
   sortOrder = signal<'asc' | 'desc'>('asc');
+  selectedSubject = signal<string>('');
+
+  subjects = computed(() => {
+    const subjects = this.courselist().map((c) => c.subject);
+    return [...new Set(subjects)].sort(); // Tar bort dubbletter och sorterar alfabetiskt
+  });
 
   // injicera servicen för att kunna lägga till kurser
   private scheduleService = inject(Schedule);
@@ -44,13 +50,20 @@ export class Kurser implements OnInit {
     const filter = this.filterText().trim().toLocaleLowerCase();
     const key = this.sortKey();
     const order = this.sortOrder();
+    const subject = this.selectedSubject();
 
-    let list = this.courselist().filter(
+    let list = this.courselist();
+
+    if (subject) {
+      list = list.filter((c) => c.subject === subject);
+    }
+
+    list = list.filter(
       (c) =>
         c.courseCode.toLocaleLowerCase().includes(filter) ||
         c.courseName.toLocaleLowerCase().includes(filter) ||
         c.subject.toLocaleLowerCase().includes(filter) ||
-        c.progression.toLocaleLowerCase().includes(filter)
+        c.progression.toLocaleLowerCase().includes(filter),
     );
 
     // sortera listan

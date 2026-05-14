@@ -1,9 +1,27 @@
 <section class="filter">
     <h2>Tillgängliga kurser</h2>
-    <mat-icon>search</mat-icon>
-    <label for="filter">Filtrera ut kurser:</label>
-    <input type="text" id="filter" placeholder="Sökfras ..." [value]="filterText()"
-        (input)="filterText.set($any($event.target).value)">
+
+    <div class="filter-controls-row"> 
+        <div class="filter-group">
+            <label for="filter">Filtrera ut kurser:</label>
+            <div class="input-container"> 
+                <mat-icon>search</mat-icon>
+                <input type="text" id="filter" placeholder="Sökfras ..." [value]="filterText()"
+                    (input)="filterText.set($any($event.target).value)">
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <label for="subject-filter">Välj ämne:</label>
+            <select id="subject-filter" (change)="selectedSubject.set($any($event.target).value)">
+                <option value="">Alla ämnen</option>
+                @for (subject of subjects(); track subject) {
+                <option [value]="subject">{{ subject }}</option>
+                }
+            </select>
+        </div>
+
+    </div>
 </section>
 
 <div class="courses-container">
@@ -20,7 +38,7 @@
     <p class="course-count">
         Visar <strong>{{ filteredCourses().length }}</strong>
         {{ filteredCourses().length === 1 ? 'kurs' : 'kurser' }}
-        
+
         av totalt {{ courselist().length }}
     </p>
 

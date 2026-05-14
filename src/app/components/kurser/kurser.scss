@@ -1,23 +1,43 @@
 .filter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin: 20px auto;
+  margin-left: 20px;  
+  margin-top: 25px; 
+  margin-bottom: 0; 
   font-weight: 600;
   h2 {
-    display: block;
     width: 100%;
+  }
+
+  mat-icon {
+    transform: translateY(6px);
   }
 }
 
 .filter input {
-  padding: 10px;
-  border: 1px solid #ccc;
+    margin-top: 10px;
+  padding: 9px;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
   border-radius: 4px;
-  width: 100%;
   max-width: 840px;
+  margin-left: 10px;
+  outline: none;
+
+  &:focus {
+    border-color: #b8860b;
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1); 
+  }
+
+  &::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
+}
+
+.sort-controls {
+    .sort-button {
+        color: #c69006 !important;
+    }
 }
 
 .courses-container {

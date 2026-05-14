@@ -3,10 +3,12 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { CourseService } from '../../services/course';
 import { Course } from '../../models/course';
+import { MatIconModule } from '@angular/material/icon';
+import { Schedule } from '../../services/schedule';
 
 @Component({
   selector: 'app-kurser',
-  imports: [CommonModule, MatButtonModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './kurser.html',
   styleUrl: './kurser.scss',
 })
@@ -17,6 +19,14 @@ export class Kurser implements OnInit {
   filterText = signal('');
   sortKey = signal<keyof Course>('courseCode');
   sortOrder = signal<'asc' | 'desc'>('asc');
+
+  // injicera servicen för att kunna lägga till kurser
+  private scheduleService = inject(Schedule);
+
+  // metoden för att lägga till
+  addCourse(course: Course) {
+    this.scheduleService.addToSchedule(course);
+  }
 
   // Sortering vid rubrikklick
   setSort(key: keyof Course) {

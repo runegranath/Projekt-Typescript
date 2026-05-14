@@ -1,0 +1,49 @@
+import { computed, Injectable, signal } from '@angular/core';
+import { Course } from '../models/course';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class Schedule {
+  // signal som håller valda kurser
+  private selectedCourses = signal<Course[]>([]);
+
+  // gör en global version
+  schedule = this.selectedCourses;
+
+  totalPoints = computed(() => 
+    this.selectedCourses().reduce((sum, course) => sum + course.points, 0)
+  );
+
+// ladda localStorages sparade schema vid start
+constructor() {
+    const saved = localStorage.getItem('schedule');
+    if (saved) {
+      this.selectedCourses.set(JSON.parse(saved)); // tolka webbläsarens strängdata till json 
+    }
+  }
+
+  // lägg till kurser
+  addToSchedule(course: Course) {
+    // dublettkoll
+    if (!this.selectedCourses().some(c => c.courseCode === course.courseCode)) { // kolla om någon ny kurs har samma kurskod för en existerande
+      this.selectedCourses.update(prev => [...prev, course]); // uppdatera signalen om det inte fanns dubletter och gör en ny lista med spread operator
+      this.saveToStorage();
+    } else {
+      alert('Kursen finns redan i ditt schema!');
+    }
+  }
+
+  // metod för borttagning
+  removeFromSchedule(courseCode: string) {
+    this.selectedCourses.update(prev => // basera uppdateringen på förra listan 
+      prev.filter(c => c.courseCode !== courseCode) // utgå från unika korskoden och gör en ny lista där alla kurser finns utom den vi tar bort
+    );
+    this.saveToStorage();
+  }
+
+  // spara i i localstorage från json till strängformat 
+  private saveToStorage() {
+    localStorage.setItem('schedule', JSON.stringify(this.selectedCourses()));
+  }
+}

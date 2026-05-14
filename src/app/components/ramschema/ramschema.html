@@ -1,1 +1,20 @@
-<p>ramschema works!</p>
+<div class="container">
+  <h2>Mitt ramschema</h2>
+  
+  <p>Du har valt <strong>{{ courses().length }}</strong> kurser om totalt <strong>{{ totalPoints() }}</strong> hp.</p>
+
+  <div class="schedule-list">
+    @for (course of courses(); track course.courseCode) {
+      <div class="schedule-item" style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ccc;">
+        <div>
+          <strong>{{ course.courseCode }}</strong> - {{ course.courseName }} ({{ course.points }} hp)
+        </div>
+        <button (click)="remove(course.courseCode)" style="color: red; border: none; background: none; cursor: pointer;">
+          Ta bort
+        </button>
+      </div>
+    } @empty {
+      <p>Ditt schema är för närvarande tomt.</p>
+    }
+  </div>
+</div>

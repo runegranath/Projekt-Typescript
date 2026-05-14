@@ -1,18 +1,18 @@
 <section class="filter">
     <h2>Tillgängliga kurser</h2>
+    <mat-icon>search</mat-icon>
     <label for="filter">Filtrera ut kurser:</label>
     <input type="text" id="filter" placeholder="Sökfras ..." [value]="filterText()"
         (input)="filterText.set($any($event.target).value)">
-
 </section>
 
 <div class="courses-container">
 
     <div class="sort-controls">
-        <button mat-button (click)="setSort('courseName')">Sortera på namn</button>
-        <button mat-button (click)="setSort('courseCode')">Sortera på kurskod</button>
-        <button mat-button (click)="setSort('subject')">Sortera på ämne</button>
-        <button mat-button (click)="setSort('points')">Sortera på poäng</button>
+        <button mat-button class="sort-button" (click)="setSort('courseName')">Sortera på namn</button>
+        <button mat-button class="sort-button" (click)="setSort('courseCode')">Sortera på kurskod</button>
+        <button mat-button class="sort-button" (click)="setSort('subject')">Sortera på ämne</button>
+        <button mat-button class="sort-button" (click)="setSort('points')">Sortera på poäng</button>
     </div>
 
     <hr>
@@ -40,7 +40,7 @@
             </div>
 
             <div class="card-actions">
-                <button mat-raised-button class="add-btn">Lägg till i schema</button>
+                <button mat-raised-button class="add-btn" (click)="addCourse(course)">Lägg till i schema</button>
             </div>
         </div>
         } @empty {

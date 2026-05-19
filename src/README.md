@@ -1,6 +1,8 @@
 # Studentportal - Projektuniversitetet
 Detta är en Single Page Application (SPA) byggd med **Angular**. Applikationen är utformad för att hjälpa studenter att navigera genom ett stort utbud av kurser, filtrera och sortera dem i realtid, samt ge möjlighet att sammanställa ett skräddarsytt, personligt ramschema med automatisk poängberäkning.
 
+Länk till publicerat projekt: [Projekt](https://projekt-typescript.onrender.com/kurser)
+
 ---
 
 ## Funktioner

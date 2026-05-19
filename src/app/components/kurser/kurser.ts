@@ -89,6 +89,7 @@ export class Kurser implements OnInit {
         this.courselist.set(response);
       },
       error: (err) => {
+        console.error(err);
         this.error.set('Något gick fel vid inläsning av kurser. Prova senare.');
       },
     });

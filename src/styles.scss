@@ -35,15 +35,16 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
-}
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
-.container {
-  max-width: 1200px; 
-  margin: 0 auto;    
-  padding: 0 20px;   
-}
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
 
-nav {
-  background-color: #333; 
-  width: 100%;
+  nav {
+    background-color: #333;
+    width: 100%;
+  }
 }

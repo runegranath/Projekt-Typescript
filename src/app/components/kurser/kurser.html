@@ -44,7 +44,7 @@
 
     <!-- loopa över filteredCourses() -->
     <div class="courses-grid">
-        @for (course of filteredCourses(); track course.courseCode) {
+        @for (course of filteredCourses(); track $index) {
         <div class="course-card">
             <div class="card-header">
                 <span class="course-code">{{ course.courseCode }}</span>
